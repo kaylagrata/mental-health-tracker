@@ -18,7 +18,6 @@ from django.utils.html import strip_tags
 from django.views.decorators.csrf import csrf_exempt
 import json
 from django.http import JsonResponse
-from django.contrib.auth import logout as auth_logout
 
 # Create your views here.
 @login_required(login_url='/login')
@@ -155,20 +154,3 @@ def create_mood_flutter(request):
         return JsonResponse({"status": "success"}, status=200)
     else:
         return JsonResponse({"status": "error"}, status=401)
-
-@csrf_exempt
-def logout(request):
-    username = request.user.username
-
-    try:
-        auth_logout(request)
-        return JsonResponse({
-            "username": username,
-            "status": True,
-            "message": "Logout berhasil!"
-        }, status=200)
-    except:
-        return JsonResponse({
-        "status": False,
-        "message": "Logout gagal."
-        }, status=401)
